@@ -1312,10 +1312,41 @@ iframe {
     pointer-events: all;
 }
 
-.modal-close {
+.modal-controls {
     position: absolute;
     top: 2rem;
     right: 3rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    z-index: 10002;
+}
+
+.modal-rotate-btn {
+    background: rgba(212, 175, 55, 0.15);
+    border: 1px solid var(--border-color);
+    color: var(--text-white);
+    padding: 0.65rem 1.25rem;
+    border-radius: 4px;
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition-normal);
+    text-transform: uppercase;
+}
+
+.modal-rotate-btn:hover {
+    background: var(--gold-gradient);
+    color: var(--bg-darker);
+    border-color: transparent;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.35);
+}
+
+.modal-close {
     background: transparent;
     border: none;
     color: var(--text-white);
@@ -1323,7 +1354,6 @@ iframe {
     cursor: pointer;
     line-height: 1;
     transition: var(--transition-fast);
-    z-index: 10002;
 }
 
 .modal-close:hover {
@@ -1359,6 +1389,7 @@ iframe {
     height: 100%;
     position: absolute;
     top: 0; left: 0;
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 /* Image Zoom Lightbox */
@@ -1465,6 +1496,21 @@ iframe {
 }
 
 @media screen and (max-width: 768px) {
+    .modal-controls {
+        top: 1rem;
+        right: 1.5rem;
+        gap: 1rem;
+    }
+    
+    .modal-rotate-btn {
+        padding: 0.5rem 0.9rem;
+        font-size: 0.75rem;
+    }
+    
+    .modal-close {
+        font-size: 2.25rem;
+    }
+
     .section {
         padding: 5rem 0;
     }

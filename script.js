@@ -183,6 +183,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Lightbox Popup triggers on card click
         if (videoModal && videoIframe && modalClose) {
+            const modalRotate = document.getElementById('modal-rotate');
+            let currentRotation = 0;
+
             videoCards.forEach(card => {
                 card.addEventListener('click', () => {
                     const videoId = card.getAttribute('data-video-id');
@@ -192,6 +195,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (bgVideo) bgVideo.pause();
 
                     if (videoId) {
+                        // Reset rotation on open
+                        currentRotation = 0;
+                        videoIframe.style.transform = '';
+
                         const embedUrl = `https://drive.google.com/file/d/${videoId}/preview?autoplay=1`;
                         videoIframe.src = embedUrl;
                         videoModal.classList.add('active');
@@ -200,9 +207,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             });
 
+            // Rotation trigger logic
+            if (modalRotate) {
+                modalRotate.addEventListener('click', () => {
+                    currentRotation = (currentRotation + 90) % 360;
+                    if (currentRotation === 90 || currentRotation === 270) {
+                        // Scale down to 56.25% (9/16 ratio) to fit portrait in landscape modal space
+                        videoIframe.style.transform = `rotate(${currentRotation}deg) scale(0.5625)`;
+                    } else {
+                        videoIframe.style.transform = `rotate(${currentRotation}deg) scale(1)`;
+                    }
+                });
+            }
+
             const closeVideoModal = () => {
                 videoModal.classList.remove('active');
                 videoIframe.src = '';
+                videoIframe.style.transform = ''; // Reset transform style on close
+                currentRotation = 0;
                 document.body.style.overflow = ''; // Restore background scroll
             };
 
