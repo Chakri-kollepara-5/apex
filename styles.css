@@ -769,29 +769,22 @@ iframe {
     width: 100%;
     aspect-ratio: 16/9;
     overflow: hidden;
+    background-color: #0b0b0e;
 }
 
-/* Luxury Video Gradients */
-.portfolio-placeholder-preview {
+.portfolio-video {
     width: 100%;
     height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--border-color);
-    font-size: 3.5rem;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
     transition: var(--transition-slow);
+    z-index: 0;
 }
 
-.bg-preview-1 { background: linear-gradient(135deg, #101015 0%, #302610 100%); }
-.bg-preview-2 { background: linear-gradient(135deg, #101015 0%, #172430 100%); }
-.bg-preview-3 { background: linear-gradient(135deg, #101015 0%, #2f1735 100%); }
-.bg-preview-4 { background: linear-gradient(135deg, #101015 0%, #152c1e 100%); }
-.bg-preview-5 { background: linear-gradient(135deg, #101015 0%, #321818 100%); }
-
-.portfolio-card:hover .portfolio-placeholder-preview {
-    transform: scale(1.08);
-    color: var(--gold-primary);
+.portfolio-card:hover .portfolio-video {
+    transform: scale(1.05);
 }
 
 .portfolio-glow {

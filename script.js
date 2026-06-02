@@ -124,40 +124,96 @@ document.addEventListener('DOMContentLoaded', () => {
 
     fadeElements.forEach(el => fadeObserver.observe(el));
 
-    // --- Video Lightbox Modal logic ---
+    // --- Video Lightbox Modal & Hover Previews logic ---
     const videoCards = document.querySelectorAll('.portfolio-card');
     const videoModal = document.getElementById('video-modal');
     const videoIframe = document.getElementById('video-iframe');
     const modalClose = document.getElementById('modal-close');
 
-    if (videoCards.length > 0 && videoModal && videoIframe && modalClose) {
+    // Check if viewport is mobile/tablet size
+    const isMobile = () => window.innerWidth <= 768;
+
+    if (videoCards.length > 0) {
+        // Desktop hover play / pause
         videoCards.forEach(card => {
-            card.addEventListener('click', () => {
-                const videoId = card.getAttribute('data-video-id');
-                if (videoId) {
-                    // Embed link with autoplay enabled
-                    const embedUrl = `https://drive.google.com/file/d/${videoId}/preview?autoplay=1`;
-                    videoIframe.src = embedUrl;
-                    videoModal.classList.add('active');
-                    document.body.style.overflow = 'hidden'; // Stop page scroll
-                }
-            });
-        });
-
-        const closeVideoModal = () => {
-            videoModal.classList.remove('active');
-            videoIframe.src = '';
-            document.body.style.overflow = ''; // Restore scroll
-        };
-
-        modalClose.addEventListener('click', closeVideoModal);
-        
-        // Close modal when clicking outside content box
-        videoModal.addEventListener('click', (e) => {
-            if (e.target === videoModal) {
-                closeVideoModal();
+            const video = card.querySelector('.portfolio-video');
+            
+            if (video) {
+                card.addEventListener('mouseenter', () => {
+                    if (!isMobile()) {
+                        video.play().catch(err => {
+                            console.log('Desktop video hover play blocked:', err);
+                        });
+                    }
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    if (!isMobile()) {
+                        video.pause();
+                        video.currentTime = 0;
+                    }
+                });
             }
         });
+
+        // Mobile Auto-play Previews when they enter the center of the viewport
+        const mobileVideoObserver = new IntersectionObserver((entries) => {
+            if (!isMobile()) return; // Disable observer triggers on desktop
+            
+            entries.forEach(entry => {
+                const video = entry.target.querySelector('.portfolio-video');
+                if (video) {
+                    if (entry.isIntersecting) {
+                        video.play().catch(err => {
+                            console.log('Mobile video autoplay blocked:', err);
+                        });
+                    } else {
+                        video.pause();
+                    }
+                }
+            });
+        }, {
+            threshold: 0.5,      // Trigger when 50% of card is in viewport
+            rootMargin: '-15% 0px -15% 0px' // Offset root boundaries to center of viewport
+        });
+
+        videoCards.forEach(card => {
+            mobileVideoObserver.observe(card);
+        });
+
+        // Lightbox Popup triggers on card click
+        if (videoModal && videoIframe && modalClose) {
+            videoCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const videoId = card.getAttribute('data-video-id');
+                    
+                    // Stop the background looping video if playing
+                    const bgVideo = card.querySelector('.portfolio-video');
+                    if (bgVideo) bgVideo.pause();
+
+                    if (videoId) {
+                        const embedUrl = `https://drive.google.com/file/d/${videoId}/preview?autoplay=1`;
+                        videoIframe.src = embedUrl;
+                        videoModal.classList.add('active');
+                        document.body.style.overflow = 'hidden'; // Lock background scroll
+                    }
+                });
+            });
+
+            const closeVideoModal = () => {
+                videoModal.classList.remove('active');
+                videoIframe.src = '';
+                document.body.style.overflow = ''; // Restore background scroll
+            };
+
+            modalClose.addEventListener('click', closeVideoModal);
+            
+            videoModal.addEventListener('click', (e) => {
+                if (e.target === videoModal) {
+                    closeVideoModal();
+                }
+            });
+        }
     }
 
     // --- Image Zoom Lightbox Modal logic ---
