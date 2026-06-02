@@ -134,6 +134,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const isMobile = () => window.innerWidth <= 768;
 
     if (videoCards.length > 0) {
+        // Sync poster visibility with video play/pause/stop events
+        videoCards.forEach(card => {
+            const video = card.querySelector('.portfolio-video');
+            const poster = card.querySelector('.portfolio-poster');
+            
+            if (video && poster) {
+                video.addEventListener('play', () => {
+                    poster.style.opacity = '0';
+                    video.style.opacity = '1';
+                });
+                
+                const showPoster = () => {
+                    poster.style.opacity = '1';
+                    video.style.opacity = '0';
+                };
+                
+                video.addEventListener('pause', showPoster);
+                video.addEventListener('ended', showPoster);
+            }
+        });
+
         // Desktop hover play / pause
         videoCards.forEach(card => {
             const video = card.querySelector('.portfolio-video');
