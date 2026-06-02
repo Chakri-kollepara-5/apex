@@ -197,7 +197,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (videoId) {
                         // Reset rotation on open
                         currentRotation = 0;
-                        videoIframe.style.transform = '';
+                        const container = videoModal.querySelector('.iframe-container');
+                        if (container) container.style.transform = '';
 
                         const embedUrl = `https://drive.google.com/file/d/${videoId}/preview?autoplay=1`;
                         videoIframe.src = embedUrl;
@@ -211,11 +212,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (modalRotate) {
                 modalRotate.addEventListener('click', () => {
                     currentRotation = (currentRotation + 90) % 360;
-                    if (currentRotation === 90 || currentRotation === 270) {
-                        // Scale down to 56.25% (9/16 ratio) to fit portrait in landscape modal space
-                        videoIframe.style.transform = `rotate(${currentRotation}deg) scale(0.5625)`;
-                    } else {
-                        videoIframe.style.transform = `rotate(${currentRotation}deg) scale(1)`;
+                    const container = videoModal.querySelector('.iframe-container');
+                    if (container) {
+                        if (currentRotation === 90 || currentRotation === 270) {
+                            // Scale down to 56.25% (9/16 ratio) to fit portrait in landscape modal space
+                            container.style.transform = `rotate(${currentRotation}deg) scale(0.5625)`;
+                        } else {
+                            container.style.transform = `rotate(${currentRotation}deg) scale(1)`;
+                        }
                     }
                 });
             }
@@ -223,7 +227,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const closeVideoModal = () => {
                 videoModal.classList.remove('active');
                 videoIframe.src = '';
-                videoIframe.style.transform = ''; // Reset transform style on close
+                const container = videoModal.querySelector('.iframe-container');
+                if (container) {
+                    container.style.transform = ''; // Reset transform style on close
+                }
                 currentRotation = 0;
                 document.body.style.overflow = ''; // Restore background scroll
             };
