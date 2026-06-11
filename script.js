@@ -1,6 +1,6 @@
-/* ==========================================
-   Apex Edits Premium Javascript Interactivity
-   ========================================== */
+/* ==========================================================================
+   Apex Agency Premium Javascript Platform Suite (SaaS Functions)
+   ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -24,7 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (navToggle && navMenu) {
         navToggle.addEventListener('click', () => {
             navMenu.classList.toggle('show-menu');
-            // Toggle hamburger icon between bars and close icon
             const icon = navToggle.querySelector('i');
             if (navMenu.classList.contains('show-menu')) {
                 icon.className = 'fa-solid fa-xmark';
@@ -79,8 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const duration = 2000; // 2 seconds
             const stepTime = Math.max(Math.floor(duration / target), 15);
             let current = 0;
-            
-            // Adjust step increment for larger numbers like 1000 to keep duration smooth
             const increment = target > 500 ? Math.ceil(target / 100) : 1;
             
             const timer = setInterval(() => {
@@ -95,7 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // Observer for statistics counting trigger
     const statsSection = document.querySelector('.hero-stats');
     if (statsSection) {
         const statsObserver = new IntersectionObserver((entries) => {
@@ -117,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('appear');
-                fadeObserver.unobserve(entry.target); // Stop observing once animated
+                fadeObserver.unobserve(entry.target);
             }
         });
     }, { threshold: 0.15 });
@@ -130,7 +126,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const videoIframe = document.getElementById('video-iframe');
     const modalClose = document.getElementById('modal-close');
 
-    // Check if viewport is mobile/tablet size
     const isMobile = () => window.innerWidth <= 768;
 
     if (videoCards.length > 0) {
@@ -179,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Mobile Auto-play Previews when they enter the center of the viewport
         const mobileVideoObserver = new IntersectionObserver((entries) => {
-            if (!isMobile()) return; // Disable observer triggers on desktop
+            if (!isMobile()) return;
             
             entries.forEach(entry => {
                 const video = entry.target.querySelector('.portfolio-video');
@@ -194,8 +189,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         }, {
-            threshold: 0.5,      // Trigger when 50% of card is in viewport
-            rootMargin: '-15% 0px -15% 0px' // Offset root boundaries to center of viewport
+            threshold: 0.5,
+            rootMargin: '-15% 0px -15% 0px'
         });
 
         videoCards.forEach(card => {
@@ -211,12 +206,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 card.addEventListener('click', () => {
                     const videoId = card.getAttribute('data-video-id');
                     
-                    // Stop the background looping video if playing
                     const bgVideo = card.querySelector('.portfolio-video');
                     if (bgVideo) bgVideo.pause();
 
                     if (videoId) {
-                        // Reset rotation on open
                         currentRotation = 0;
                         const container = videoModal.querySelector('.iframe-container');
                         if (container) container.style.transform = '';
@@ -224,19 +217,17 @@ document.addEventListener('DOMContentLoaded', () => {
                         const embedUrl = `https://drive.google.com/file/d/${videoId}/preview?autoplay=1`;
                         videoIframe.src = embedUrl;
                         videoModal.classList.add('active');
-                        document.body.style.overflow = 'hidden'; // Lock background scroll
+                        document.body.style.overflow = 'hidden';
                     }
                 });
             });
 
-            // Rotation trigger logic
             if (modalRotate) {
                 modalRotate.addEventListener('click', () => {
                     currentRotation = (currentRotation + 90) % 360;
                     const container = videoModal.querySelector('.iframe-container');
                     if (container) {
                         if (currentRotation === 90 || currentRotation === 270) {
-                            // Scale down to 56.25% (9/16 ratio) to fit portrait in landscape modal space
                             container.style.transform = `rotate(${currentRotation}deg) scale(0.5625)`;
                         } else {
                             container.style.transform = `rotate(${currentRotation}deg) scale(1)`;
@@ -250,14 +241,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 videoIframe.src = '';
                 const container = videoModal.querySelector('.iframe-container');
                 if (container) {
-                    container.style.transform = ''; // Reset transform style on close
+                    container.style.transform = '';
                 }
                 currentRotation = 0;
-                document.body.style.overflow = ''; // Restore background scroll
+                document.body.style.overflow = '';
             };
 
             modalClose.addEventListener('click', closeVideoModal);
-            
             videoModal.addEventListener('click', (e) => {
                 if (e.target === videoModal) {
                     closeVideoModal();
@@ -277,23 +267,20 @@ document.addEventListener('DOMContentLoaded', () => {
         zoomableImages.forEach(container => {
             container.addEventListener('click', () => {
                 const img = container.querySelector('.review-img');
-                const clientName = container.closest('.review-card').querySelector('.review-client').textContent;
-                const reviewTag = container.closest('.review-card').querySelector('.review-tag').textContent;
+                const clientName = container.closest('.review-card').querySelector('.review-client').textContent.trim();
+                const reviewRole = container.closest('.review-card').querySelector('.review-role').textContent.trim();
                 
                 if (img) {
                     modalImgDisplay.src = img.src;
-                    modalImgCaption.textContent = `${clientName} — ${reviewTag} (Click image to Zoom In/Out)`;
+                    modalImgCaption.textContent = `${clientName} — ${reviewRole} (Click image to Zoom In/Out)`;
                     imageModal.classList.add('active');
                     document.body.style.overflow = 'hidden';
-                    
-                    // Reset image styling zoom state
                     modalImgDisplay.style.transform = 'scale(1)';
                     modalImgDisplay.style.cursor = 'zoom-in';
                 }
             });
         });
 
-        // Click on image inside modal to zoom in/out
         modalImgDisplay.addEventListener('click', () => {
             const currentScale = modalImgDisplay.style.transform;
             if (currentScale === 'scale(1.8)') {
@@ -318,4 +305,159 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // ==========================================
+    // --- Interactive SaaS Project Planner ---
+    // ==========================================
+
+    // --- 1. Pricing Calculator Logic ---
+    const calcServices = document.querySelectorAll('.calc-service-item');
+    const calcQtyInput = document.getElementById('calc-qty');
+    const calcQtyVal = document.getElementById('calc-qty-val');
+    const calcPrioritySelect = document.getElementById('calc-priority');
+    const calcTotalVal = document.getElementById('calc-total');
+
+    const calculateTotal = () => {
+        let baseSum = 0;
+        
+        // Sum prices of all selected checkboxes
+        calcServices.forEach(checkbox => {
+            if (checkbox.checked) {
+                baseSum += parseInt(checkbox.getAttribute('data-price'), 10);
+            }
+        });
+
+        const quantity = parseInt(calcQtyInput.value, 10);
+        const priorityMultiplier = parseFloat(calcPrioritySelect.value);
+
+        // Compute total pricing formula
+        const total = Math.round(baseSum * quantity * priorityMultiplier);
+        
+        // Display with basic animation / formatting
+        if (calcTotalVal) {
+            calcTotalVal.textContent = total.toLocaleString();
+        }
+    };
+
+    if (calcServices.length > 0 && calcQtyInput && calcPrioritySelect && calcTotalVal) {
+        // Event Listeners for Calculator
+        calcServices.forEach(box => box.addEventListener('change', calculateTotal));
+        
+        calcQtyInput.addEventListener('input', (e) => {
+            calcQtyVal.textContent = e.target.value;
+            calculateTotal();
+        });
+        
+        calcPrioritySelect.addEventListener('change', calculateTotal);
+        
+        // Run initial calculation
+        calculateTotal();
+    }
+
+    // --- 2. Onboarding Lead Wizard Logic ---
+    const wizardForm = document.getElementById('onboarding-form');
+    const wizardSteps = document.querySelectorAll('.wizard-step');
+    const progressIndicators = document.querySelectorAll('.step-indicator');
+    const progressBar = document.getElementById('wizard-progress-bar');
+    
+    let activeStepNum = 1;
+
+    const updateWizardUI = () => {
+        // Toggle step element visibility classes
+        wizardSteps.forEach(step => {
+            const stepNum = parseInt(step.getAttribute('data-step'), 10);
+            if (stepNum === activeStepNum) {
+                step.classList.add('active-step');
+            } else {
+                step.classList.remove('active-step');
+            }
+        });
+
+        // Update indicators classes
+        progressIndicators.forEach((ind, index) => {
+            if (index + 1 <= activeStepNum) {
+                ind.classList.add('active');
+            } else {
+                ind.classList.remove('active');
+            }
+        });
+
+        // Update progress bar width percentage
+        if (progressBar) {
+            const percentage = ((activeStepNum - 1) / (wizardSteps.length - 1)) * 100;
+            progressBar.style.width = `${percentage}%`;
+        }
+    };
+
+    if (wizardForm) {
+        const nextButtons = wizardForm.querySelectorAll('.btn-next');
+        const prevButtons = wizardForm.querySelectorAll('.btn-prev');
+
+        nextButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Validation checklist on current step inputs
+                const currentStepEl = wizardForm.querySelector(`.wizard-step[data-step="${activeStepNum}"]`);
+                const inputs = currentStepEl.querySelectorAll('input[required], select[required], textarea[required]');
+                let valid = true;
+                
+                inputs.forEach(input => {
+                    if (!input.value.trim()) {
+                        valid = false;
+                        input.style.borderColor = '#ef4444'; // Red error outline
+                    } else {
+                        input.style.borderColor = ''; // Clear outline
+                    }
+                });
+
+                if (valid) {
+                    activeStepNum++;
+                    if (activeStepNum > wizardSteps.length) activeStepNum = wizardSteps.length;
+                    updateWizardUI();
+                }
+            });
+        });
+
+        prevButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                activeStepNum--;
+                if (activeStepNum < 1) activeStepNum = 1;
+                updateWizardUI();
+            });
+        });
+
+        // Form Submit brief to WhatsApp Onboarding logic
+        wizardForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Extract Briefing Selections
+            const goal = wizardForm.querySelector('input[name="onboard-goal"]:checked').value;
+            const budget = document.getElementById('onboard-budget').value;
+            const description = document.getElementById('onboard-desc').value.trim() || 'No additional briefs provided.';
+            const brand = document.getElementById('onboard-brand').value.trim();
+            const contactName = document.getElementById('onboard-name').value.trim();
+            const contactInfo = document.getElementById('onboard-email').value.trim();
+
+            // Format Estimated Pricing if calculated
+            const estimatedSum = calcTotalVal ? calcTotalVal.textContent : 'Calculated on brief';
+
+            // Construct corporate brief template
+            const message = `*APEX AGENCY ONBOARDING BRIEF*\n\n` +
+                            `• *Brand Name:* ${brand}\n` +
+                            `• *Contact Person:* ${contactName}\n` +
+                            `• *Contact Info / LinkedIn:* ${contactInfo}\n\n` +
+                            `• *Main Goal:* ${goal}\n` +
+                            `• *Allocated Budget Range:* ${budget}\n` +
+                            `• *Calculated Service Estimate:* $${estimatedSum} USD\n\n` +
+                            `• *Creative Directives / Description:*\n"${description}"\n\n` +
+                            `Please review this brief to initialize our digital marketing campaign!`;
+
+            // URL Encode the message
+            const encodedMessage = encodeURIComponent(message);
+            const whatsAppUrl = `https://wa.me/917661970181?text=${encodedMessage}`;
+
+            // Open WhatsApp tab
+            window.open(whatsAppUrl, '_blank');
+        });
+    }
+
 });
