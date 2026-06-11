@@ -40,6 +40,7 @@
                     <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
                     <li><a href="#reviews" class="nav-link">Case Studies</a></li>
                     <li><a href="#why-choose-us" class="nav-link">Why Apex</a></li>
+                    <li><a href="#careers" class="nav-link">Careers</a></li>
                     <li><a href="#contact" class="nav-link">Contact</a></li>
                 </ul>
             </nav>
@@ -56,6 +57,11 @@
     <main>
         <!-- Hero Section -->
         <section class="hero-section" id="hero">
+            <!-- 3D Interactive Canvas Particles -->
+            <canvas id="hero-3d-canvas"></canvas>
+            
+            <div class="hero-bg-glow"></div>
+            
             <div class="container hero-container grid">
                 <div class="hero-content">
                     <div class="badge fade-in">
@@ -106,7 +112,7 @@
                 <div class="hero-visual fade-in">
                     <div class="hero-card-wrapper">
                         <div class="hero-card-glow"></div>
-                        <div class="hero-card">
+                        <div class="hero-card" data-tilt>
                             <div class="hero-card-header-bar">
                                 <div class="dot red"></div>
                                 <div class="dot yellow"></div>
@@ -165,7 +171,7 @@
                         <span class="exp-years">PRO</span>
                         <span class="exp-text">ADVERTISING STANDARD</span>
                     </div>
-                    <div class="about-img-frame">
+                    <div class="about-img-frame" data-tilt>
                         <div class="about-img-glow"></div>
                         <div class="about-img-placeholder">
                             <i class="fa-solid fa-layer-group large-icon"></i>
@@ -225,7 +231,7 @@
 
                 <div class="services-grid grid">
                     <!-- Service 1 -->
-                    <div class="service-card">
+                    <div class="service-card" data-tilt>
                         <div class="service-icon-box">
                             <i class="fa-solid fa-rectangle-ad"></i>
                         </div>
@@ -240,7 +246,7 @@
                     </div>
 
                     <!-- Service 2 -->
-                    <div class="service-card">
+                    <div class="service-card" data-tilt>
                         <div class="service-icon-box">
                             <i class="fa-solid fa-wand-magic-sparkles"></i>
                         </div>
@@ -255,7 +261,7 @@
                     </div>
 
                     <!-- Service 3 -->
-                    <div class="service-card">
+                    <div class="service-card" data-tilt>
                         <div class="service-icon-box">
                             <i class="fa-solid fa-bezier-curve"></i>
                         </div>
@@ -270,13 +276,13 @@
                     </div>
 
                     <!-- Service 4 -->
-                    <div class="service-card">
+                    <div class="service-card" data-tilt>
                         <div class="service-icon-box">
                             <i class="fa-solid fa-file-invoice"></i>
                         </div>
                         <h3 class="service-title">Poster & Banner Design</h3>
                         <p class="service-text">
-                            High-impact digital marketing assets, billboard layouts, and promotional banners optimized for both performance ads and print.
+                            High-impact digital marketing assets, billboard layouts, and promotional banners optimized for performance ads and print.
                         </p>
                         <div class="service-card-meta">
                             <span>Deliverable: PSD / AI / Print-Ready</span>
@@ -285,7 +291,7 @@
                     </div>
 
                     <!-- Service 5 -->
-                    <div class="service-card">
+                    <div class="service-card" data-tilt>
                         <div class="service-icon-box">
                             <i class="fa-solid fa-chart-line"></i>
                         </div>
@@ -300,7 +306,7 @@
                     </div>
 
                     <!-- Service 6 -->
-                    <div class="service-card">
+                    <div class="service-card" data-tilt>
                         <div class="service-icon-box">
                             <i class="fa-solid fa-ranking-star"></i>
                         </div>
@@ -315,7 +321,7 @@
                     </div>
 
                     <!-- Service 7 -->
-                    <div class="service-card">
+                    <div class="service-card" data-tilt>
                         <div class="service-icon-box">
                             <i class="fa-solid fa-cubes"></i>
                         </div>
@@ -330,7 +336,7 @@
                     </div>
 
                     <!-- Service 8 -->
-                    <div class="service-card">
+                    <div class="service-card" data-tilt>
                         <div class="service-icon-box">
                             <i class="fa-brands fa-tiktok"></i>
                         </div>
@@ -347,58 +353,58 @@
             </div>
         </section>
 
-        <!-- Interactive Planner Section (Pricing Calculator & Onboarding Quiz) -->
+        <!-- Interactive Planner Section (Service Selector & Onboarding Quiz) -->
         <section class="planner-section section" id="planner">
             <div class="container">
                 <div class="section-header text-center">
                     <div class="section-subtitle">Interactive Portal</div>
                     <h2 class="section-title">Plan Your Campaign In Seconds</h2>
                     <p class="section-description">
-                        Select your business requirements to calculate an estimated project budget, then submit your campaign specifications directly to our onboarding team.
+                        Select your business requirements and deliverables details, then submit your campaign specifications directly to our onboarding team.
                     </p>
                 </div>
 
                 <div class="planner-grid grid">
                     
-                    <!-- Pricing Calculator -->
-                    <div class="planner-card calculator-card">
-                        <h3 class="planner-title"><i class="fa-solid fa-calculator gold-text"></i> Service Estimator</h3>
-                        <p class="planner-desc">Select the visual assets your business requires to evaluate estimated budgets.</p>
+                    <!-- Service Selector (No Pricing Displays) -->
+                    <div class="planner-card calculator-card" data-tilt>
+                        <h3 class="planner-title"><i class="fa-solid fa-layer-group gold-text"></i> Service Selector</h3>
+                        <p class="planner-desc">Select the visual assets and campaign solutions your business requires.</p>
                         
                         <div class="calc-services-list">
                             <label class="calc-checkbox-container">
-                                <input type="checkbox" class="calc-service-item" data-price="600" checked>
+                                <input type="checkbox" class="calc-service-item" checked>
                                 <span class="calc-checkbox-custom"></span>
                                 <div class="calc-item-text">
                                     <span class="calc-item-title">Video Advertisements</span>
-                                    <span class="calc-item-sub">Acquisition focused commercial ($600/unit)</span>
+                                    <span class="calc-item-sub">Acquisition focused direct response commercial</span>
                                 </div>
                             </label>
                             
                             <label class="calc-checkbox-container">
-                                <input type="checkbox" class="calc-service-item" data-price="800">
+                                <input type="checkbox" class="calc-service-item">
                                 <span class="calc-checkbox-custom"></span>
                                 <div class="calc-item-text">
                                     <span class="calc-item-title">AI Commercial Videos</span>
-                                    <span class="calc-item-sub">Generative AI visual production ($800/unit)</span>
+                                    <span class="calc-item-sub">Generative AI visual production and scripting</span>
                                 </div>
                             </label>
                             
                             <label class="calc-checkbox-container">
-                                <input type="checkbox" class="calc-service-item" data-price="350">
+                                <input type="checkbox" class="calc-service-item">
                                 <span class="calc-checkbox-custom"></span>
                                 <div class="calc-item-text">
                                     <span class="calc-item-title">Brand Promotion / Reels</span>
-                                    <span class="calc-item-sub">Short-form vertical video bundle ($350/unit)</span>
+                                    <span class="calc-item-sub">Short-form vertical video campaign bundle</span>
                                 </div>
                             </label>
                             
                             <label class="calc-checkbox-container">
-                                <input type="checkbox" class="calc-service-item" data-price="400">
+                                <input type="checkbox" class="calc-service-item">
                                 <span class="calc-checkbox-custom"></span>
                                 <div class="calc-item-text">
                                     <span class="calc-item-title">Corporate Logo Design</span>
-                                    <span class="calc-item-sub">Minimalist vector identity suite ($400)</span>
+                                    <span class="calc-item-sub">Minimalist vector identity system & style guide</span>
                                 </div>
                             </label>
                         </div>
@@ -416,26 +422,15 @@
                         <div class="calc-options-group">
                             <label class="calc-option-label">Delivery SLA Priority</label>
                             <select class="calc-select" id="calc-priority">
-                                <option value="1.0" selected>Standard (3-5 Business Days)</option>
-                                <option value="1.3">Express Delivery (48 Hours Priority) +30%</option>
-                                <option value="0.95">Corporate Bulk Retainer (Flexible Delivery) -5%</option>
+                                <option value="standard" selected>Standard (3-5 Business Days)</option>
+                                <option value="express">Express Delivery (48 Hours Priority)</option>
+                                <option value="corporate">Corporate Bulk Retainer (Flexible Delivery)</option>
                             </select>
-                        </div>
-
-                        <!-- Budget Output -->
-                        <div class="calc-output-box">
-                            <span class="calc-output-label">ESTIMATED INVESTMENT</span>
-                            <div class="calc-price-row">
-                                <span class="calc-currency">$</span>
-                                <span class="calc-total-val" id="calc-total">600</span>
-                                <span class="calc-billing">USD</span>
-                            </div>
-                            <p class="calc-disclaimer">*Estimates depend on design brief complexities. Final quote is provided on onboarding.</p>
                         </div>
                     </div>
 
                     <!-- Onboarding Lead Form Wizard -->
-                    <div class="planner-card onboarding-card">
+                    <div class="planner-card onboarding-card" data-tilt>
                         <h3 class="planner-title"><i class="fa-solid fa-paper-plane gold-text"></i> Quick Onboarding Brief</h3>
                         <p class="planner-desc">Complete our 3-step qualification form to launch custom quote requests.</p>
                         
@@ -486,23 +481,13 @@
                                 </div>
                             </div>
 
-                            <!-- Step 2: Scale & Budget -->
+                            <!-- Step 2: Campaign Specifications -->
                             <div class="wizard-step" data-step="2">
-                                <h4 class="step-heading">Step 2: Project Scale & Capital Allocation</h4>
+                                <h4 class="step-heading">Step 2: Campaign Brief & Creative Direction</h4>
                                 
                                 <div class="form-group">
-                                    <label class="form-label">Estimated Monthly Ad Spend / Budget</label>
-                                    <select class="form-select" id="onboard-budget">
-                                        <option value="Under $1,000" selected>Under $1,000 USD</option>
-                                        <option value="$1,000 - $3,000">$1,000 - $3,000 USD</option>
-                                        <option value="$3,000 - $10,000">$3,000 - $10,000 USD</option>
-                                        <option value="$10,000+">$10,000+ USD Enterprise Priority</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="form-label">Additional Brief / Creative Directives</label>
-                                    <textarea class="form-textarea" id="onboard-desc" placeholder="Describe your product, competitors, core value proposition, or raw design ideas..."></textarea>
+                                    <label class="form-label">Creative Brief / Deliverables Specifications</label>
+                                    <textarea class="form-textarea" id="onboard-desc" required placeholder="Describe your product, campaign goals, target audience, preferred styles, or raw creative ideas..."></textarea>
                                 </div>
 
                                 <div class="wizard-navigation">
@@ -555,7 +540,7 @@
 
                 <div class="portfolio-grid grid">
                     <!-- Project 1 -->
-                    <div class="portfolio-card" data-video-id="11ebNk63vM4v-FypbGPhFz8r42w0J_trw">
+                    <div class="portfolio-card" data-tilt data-video-id="11ebNk63vM4v-FypbGPhFz8r42w0J_trw">
                         <div class="portfolio-img-wrapper">
                             <div class="portfolio-glow"></div>
                             <div class="portfolio-overlay">
@@ -574,7 +559,7 @@
                     </div>
 
                     <!-- Project 2 -->
-                    <div class="portfolio-card" data-video-id="1KtVYANMuXK-Xz7FhphZGsgYERs-ewfPe">
+                    <div class="portfolio-card" data-tilt data-video-id="1KtVYANMuXK-Xz7FhphZGsgYERs-ewfPe">
                         <div class="portfolio-img-wrapper">
                             <div class="portfolio-glow"></div>
                             <div class="portfolio-overlay">
@@ -593,7 +578,7 @@
                     </div>
 
                     <!-- Project 3 -->
-                    <div class="portfolio-card" data-video-id="1zqNy0hE_4PZupvR0XOML0pMV3jrU6gZI">
+                    <div class="portfolio-card" data-tilt data-video-id="1zqNy0hE_4PZupvR0XOML0pMV3jrU6gZI">
                         <div class="portfolio-img-wrapper">
                             <div class="portfolio-glow"></div>
                             <div class="portfolio-overlay">
@@ -612,7 +597,7 @@
                     </div>
 
                     <!-- Project 4 -->
-                    <div class="portfolio-card" data-video-id="1FHLQnxQrASfhyYfcckTKcpXZcM7ZRiuc">
+                    <div class="portfolio-card" data-tilt data-video-id="1FHLQnxQrASfhyYfcckTKcpXZcM7ZRiuc">
                         <div class="portfolio-img-wrapper">
                             <div class="portfolio-glow"></div>
                             <div class="portfolio-overlay">
@@ -631,7 +616,7 @@
                     </div>
 
                     <!-- Project 5 -->
-                    <div class="portfolio-card" data-video-id="1898btIs1IMtjkSP9LXscPeDBVppuaUy6">
+                    <div class="portfolio-card" data-tilt data-video-id="1898btIs1IMtjkSP9LXscPeDBVppuaUy6">
                         <div class="portfolio-img-wrapper">
                             <div class="portfolio-glow"></div>
                             <div class="portfolio-overlay">
@@ -665,7 +650,7 @@
 
                 <div class="reviews-grid grid">
                     <!-- Review Card 1 -->
-                    <div class="review-card">
+                    <div class="review-card" data-tilt>
                         <div class="review-profile-header">
                             <div class="review-avatar"><i class="fa-solid fa-building-user"></i></div>
                             <div class="review-user-info">
@@ -693,7 +678,7 @@
                     </div>
 
                     <!-- Review Card 2 -->
-                    <div class="review-card">
+                    <div class="review-card" data-tilt>
                         <div class="review-profile-header">
                             <div class="review-avatar"><i class="fa-solid fa-building-user"></i></div>
                             <div class="review-user-info">
@@ -721,7 +706,7 @@
                     </div>
 
                     <!-- Review Card 3 (Collage) -->
-                    <div class="review-card collage-card">
+                    <div class="review-card collage-card" data-tilt>
                         <div class="review-profile-header">
                             <div class="review-avatar"><i class="fa-solid fa-building-user"></i></div>
                             <div class="review-user-info">
@@ -766,7 +751,7 @@
                 <div class="bento-grid">
                     
                     <!-- Bento Box 1: Large Grid Box -->
-                    <div class="bento-box bento-large">
+                    <div class="bento-box bento-large" data-tilt>
                         <div class="bento-content">
                             <div class="bento-icon-box"><i class="fa-solid fa-bezier-curve"></i></div>
                             <h3 class="bento-title">Elite Multi-Track Production Pipeline</h3>
@@ -782,7 +767,7 @@
                     </div>
 
                     <!-- Bento Box 2: Metric Box -->
-                    <div class="bento-box bento-metric">
+                    <div class="bento-box bento-metric" data-tilt>
                         <div class="bento-content text-center">
                             <div class="bento-metric-val">25+</div>
                             <h4 class="bento-metric-label">Corporate Brands Served</h4>
@@ -791,7 +776,7 @@
                     </div>
 
                     <!-- Bento Box 3: Metric Box -->
-                    <div class="bento-box bento-metric">
+                    <div class="bento-box bento-metric" data-tilt>
                         <div class="bento-content text-center">
                             <div class="bento-metric-val">1,000+</div>
                             <h4 class="bento-metric-label">Client Leads Generated</h4>
@@ -800,7 +785,7 @@
                     </div>
 
                     <!-- Bento Box 4: Medium Grid Box -->
-                    <div class="bento-box bento-medium">
+                    <div class="bento-box bento-medium" data-tilt>
                         <div class="bento-content">
                             <div class="bento-icon-box"><i class="fa-solid fa-gauge-high"></i></div>
                             <h3 class="bento-title">Acquisition Analytics Focus</h3>
@@ -821,6 +806,32 @@
             </div>
         </section>
 
+        <!-- Careers Section -->
+        <section class="careers-section section" id="careers">
+            <div class="container">
+                <div class="careers-card" data-tilt>
+                    <div class="careers-glow"></div>
+                    <div class="careers-content text-center">
+                        <div class="careers-badge">
+                            <span class="badge-dot"></span>
+                            <span class="badge-text">WE ARE HIRING</span>
+                        </div>
+                        <h2 class="section-title">Join the Apex Creative Network</h2>
+                        <p class="careers-description">
+                            We are always looking for exceptional video editors, AI specialists, graphic designers, and performance marketers. If you are passionate about engineering high-retention media and scaling enterprise brands, join us.
+                        </p>
+                        <div class="careers-cta">
+                            <p class="careers-cta-text">Interested in opportunities?</p>
+                            <a href="mailto:apexagencycontactin@gmail.com?subject=Apex Agency Career Opportunity" class="btn btn-primary">
+                                <i class="fa-solid fa-envelope icon-left"></i>
+                                <span>DM Us: apexagencycontactin@gmail.com</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Contact Section (High Conversion Layout) -->
         <section class="contact-section section" id="contact">
             <div class="contact-glow"></div>
@@ -834,7 +845,7 @@
 
                     <div class="contact-buttons">
                         <!-- LinkedIn Card -->
-                        <a href="https://www.linkedin.com/company/apexagencyofficial/" target="_blank" class="contact-card linkedin-card">
+                        <a href="https://www.linkedin.com/company/apexagencyofficial/" target="_blank" class="contact-card linkedin-card" data-tilt>
                             <div class="contact-icon-wrapper">
                                 <i class="fa-brands fa-linkedin-in"></i>
                             </div>
@@ -846,7 +857,7 @@
                         </a>
 
                         <!-- WhatsApp Card -->
-                        <a href="https://wa.me/917661970181?text=Hi%20Apex%20Agency,%20I%20saw%20your%20corporate%20solutions%20and%20want%20to%20get%20started!" target="_blank" class="contact-card whatsapp-card">
+                        <a href="https://wa.me/917661970181?text=Hi%20Apex%20Agency,%20I%20saw%20your%20corporate%20solutions%20and%20want%20to%20get%20started!" target="_blank" class="contact-card whatsapp-card" data-tilt>
                             <div class="contact-icon-wrapper">
                                 <i class="fa-brands fa-whatsapp"></i>
                             </div>
@@ -858,7 +869,7 @@
                         </a>
 
                         <!-- Instagram Card -->
-                        <a href="https://www.instagram.com/apexedits_official_/" target="_blank" class="contact-card instagram-card">
+                        <a href="https://www.instagram.com/apexedits_official_/" target="_blank" class="contact-card instagram-card" data-tilt>
                             <div class="contact-icon-wrapper">
                                 <i class="fa-brands fa-instagram"></i>
                             </div>
@@ -898,8 +909,9 @@
                     <li><a href="#hero">Corporate Home</a></li>
                     <li><a href="#about">Corporate Mission</a></li>
                     <li><a href="#services">Solutions</a></li>
-                    <li><a href="#planner">Pricing Estimator</a></li>
+                    <li><a href="#planner">Project Planner</a></li>
                     <li><a href="#portfolio">Deliverables Grid</a></li>
+                    <li><a href="#careers">Careers</a></li>
                 </ul>
             </div>
 

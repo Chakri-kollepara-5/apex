@@ -310,48 +310,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Interactive SaaS Project Planner ---
     // ==========================================
 
-    // --- 1. Pricing Calculator Logic ---
-    const calcServices = document.querySelectorAll('.calc-service-item');
+    // --- 1. Service Selector Logic ---
     const calcQtyInput = document.getElementById('calc-qty');
     const calcQtyVal = document.getElementById('calc-qty-val');
-    const calcPrioritySelect = document.getElementById('calc-priority');
-    const calcTotalVal = document.getElementById('calc-total');
 
-    const calculateTotal = () => {
-        let baseSum = 0;
-        
-        // Sum prices of all selected checkboxes
-        calcServices.forEach(checkbox => {
-            if (checkbox.checked) {
-                baseSum += parseInt(checkbox.getAttribute('data-price'), 10);
-            }
-        });
-
-        const quantity = parseInt(calcQtyInput.value, 10);
-        const priorityMultiplier = parseFloat(calcPrioritySelect.value);
-
-        // Compute total pricing formula
-        const total = Math.round(baseSum * quantity * priorityMultiplier);
-        
-        // Display with basic animation / formatting
-        if (calcTotalVal) {
-            calcTotalVal.textContent = total.toLocaleString();
-        }
-    };
-
-    if (calcServices.length > 0 && calcQtyInput && calcPrioritySelect && calcTotalVal) {
-        // Event Listeners for Calculator
-        calcServices.forEach(box => box.addEventListener('change', calculateTotal));
-        
+    if (calcQtyInput && calcQtyVal) {
         calcQtyInput.addEventListener('input', (e) => {
             calcQtyVal.textContent = e.target.value;
-            calculateTotal();
         });
-        
-        calcPrioritySelect.addEventListener('change', calculateTotal);
-        
-        // Run initial calculation
-        calculateTotal();
     }
 
     // --- 2. Onboarding Lead Wizard Logic ---
@@ -431,23 +397,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Extract Briefing Selections
             const goal = wizardForm.querySelector('input[name="onboard-goal"]:checked').value;
-            const budget = document.getElementById('onboard-budget').value;
             const description = document.getElementById('onboard-desc').value.trim() || 'No additional briefs provided.';
             const brand = document.getElementById('onboard-brand').value.trim();
             const contactName = document.getElementById('onboard-name').value.trim();
             const contactInfo = document.getElementById('onboard-email').value.trim();
-
-            // Format Estimated Pricing if calculated
-            const estimatedSum = calcTotalVal ? calcTotalVal.textContent : 'Calculated on brief';
 
             // Construct corporate brief template
             const message = `*APEX AGENCY ONBOARDING BRIEF*\n\n` +
                             `• *Brand Name:* ${brand}\n` +
                             `• *Contact Person:* ${contactName}\n` +
                             `• *Contact Info / LinkedIn:* ${contactInfo}\n\n` +
-                            `• *Main Goal:* ${goal}\n` +
-                            `• *Allocated Budget Range:* ${budget}\n` +
-                            `• *Calculated Service Estimate:* $${estimatedSum} USD\n\n` +
+                            `• *Main Goal:* ${goal}\n\n` +
                             `• *Creative Directives / Description:*\n"${description}"\n\n` +
                             `Please review this brief to initialize our digital marketing campaign!`;
 
@@ -460,4 +420,168 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- 3D Particle Canvas Animation ---
+    const canvas = document.getElementById('hero-3d-canvas');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        const heroSection = document.getElementById('hero');
+        
+        let width = canvas.width = heroSection.offsetWidth;
+        let height = canvas.height = heroSection.offsetHeight;
+        
+        window.addEventListener('resize', () => {
+            if (heroSection) {
+                width = canvas.width = heroSection.offsetWidth;
+                height = canvas.height = heroSection.offsetHeight;
+            }
+        });
+        
+        const particles = [];
+        const particleCount = Math.min(60, Math.floor((width * height) / 15000));
+        
+        // Mouse interaction vectors
+        const mouse = { x: null, y: null, radius: 120 };
+        heroSection.addEventListener('mousemove', (e) => {
+            const rect = heroSection.getBoundingClientRect();
+            mouse.x = e.clientX - rect.left;
+            mouse.y = e.clientY - rect.top;
+        });
+        
+        heroSection.addEventListener('mouseleave', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+        
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.z = Math.random() * 1.5 + 0.5; // Simulate 3D depth layer
+                this.radius = this.z * 1.25;
+                this.vx = (Math.random() - 0.5) * 0.4;
+                this.vy = (Math.random() - 0.5) * 0.4;
+                this.baseVx = this.vx;
+                this.baseVy = this.vy;
+            }
+            
+            update() {
+                // Interactive mouse push effect
+                if (mouse.x !== null && mouse.y !== null) {
+                    const dx = this.x - mouse.x;
+                    const dy = this.y - mouse.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (dist < mouse.radius) {
+                        const force = (mouse.radius - dist) / mouse.radius;
+                        // Push away relative to depth layer (z)
+                        const angle = Math.atan2(dy, dx);
+                        const pushX = Math.cos(angle) * force * 1.2 * this.z;
+                        const pushY = Math.sin(angle) * force * 1.2 * this.z;
+                        
+                        this.vx += (pushX - this.vx) * 0.1;
+                        this.vy += (pushY - this.vy) * 0.1;
+                    } else {
+                        // Slowly return to base velocity
+                        this.vx += (this.baseVx - this.vx) * 0.05;
+                        this.vy += (this.baseVy - this.vy) * 0.05;
+                    }
+                } else {
+                    this.vx += (this.baseVx - this.vx) * 0.05;
+                    this.vy += (this.baseVy - this.vy) * 0.05;
+                }
+                
+                this.x += this.vx;
+                this.y += this.vy;
+                
+                // Boundaries wrap around
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+            }
+            
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(212, 175, 55, ${0.1 + (this.z / 2) * 0.35})`; // Golden gradient particles
+                ctx.fill();
+            }
+        }
+        
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+        
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            // Update & Draw particles
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            
+            // Draw connecting web lines
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    const maxDist = 120;
+                    
+                    if (dist < maxDist) {
+                        const alpha = (1 - dist / maxDist) * 0.06 * Math.min(particles[i].z, particles[j].z);
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(212, 175, 55, ${alpha})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+            
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+    }
+
+    // --- 3D Parallax Tilt Handler ---
+    const tiltElements = document.querySelectorAll('[data-tilt]');
+    
+    if (tiltElements.length > 0 && !isMobile()) {
+        tiltElements.forEach(el => {
+            el.addEventListener('mousemove', (e) => {
+                const rect = el.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const w = rect.width;
+                const h = rect.height;
+                
+                // Coordinates relative to card center (-0.5 to 0.5)
+                const dx = (x / w) - 0.5;
+                const dy = (y / h) - 0.5;
+                
+                // Tilt rotation factors (max 12 degrees)
+                const tiltX = -dy * 12;
+                const tiltY = dx * 12;
+                
+                el.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.02, 1.02, 1.02)`;
+                
+                // Shift inline custom properties for radial shine/parallax highlights
+                el.style.setProperty('--tilt-x', `${dx * 100}%`);
+                el.style.setProperty('--tilt-y', `${dy * 100}%`);
+            });
+            
+            el.addEventListener('mouseleave', () => {
+                el.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+                el.style.setProperty('--tilt-x', `0%`);
+                el.style.setProperty('--tilt-y', `0%`);
+            });
+        });
+    }
+
 });
+
